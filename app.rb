@@ -55,7 +55,7 @@ require "json"
   end
 
 
- get ("/:countrycode") do 
+ get ("/:countrycode1") do 
 
 #list access
     exchange_key= ENV["EXCHANGE"]
@@ -70,21 +70,30 @@ require "json"
     @country_codes=(@all_currencies_hash.keys)
 
 
-@country1=params.fetch("countrycode").to_s
+@country1=params.fetch("countrycode1").to_s
 
 
 erb (:display)
 end
-get#converting
-exchange_key= ENV["EXCHANGE"]
-base= "https://api.exchangerate.host/"
-convert_resource= "convert"
-key= "?access_key=" + exchange_key.to_s
-exchange_ticks= "&from=" + @country1 + "&to="+ @currency2 + "&amount=1"
-@data_url= base + convert_resource + key + exchange_ticks
 
-raw_data= HTTP.get(@data_url)
-json_convert_data=JSON.parse(raw_data)
+get ("/:countrycode1/:countrycode2") do
 
-@result= json_convert_data.fetch("result").to_s
-#converting end
+  @country1=params.fetch("countrycode1").to_s
+  @country2=params.fetch("countrycode2").to_s
+
+#converting
+  exchange_key= ENV["EXCHANGE"]
+  base= "https://api.exchangerate.host/"
+  convert_resource= "convert"
+  key= "?access_key=" + exchange_key.to_s
+  exchange_ticks= "&from=" + @country1 + "&to="+ @country2 + "&amount=1"
+  @data_url= base + convert_resource + key + exchange_ticks
+
+  raw_data= HTTP.get(@data_url)
+  json_convert_data=JSON.parse(raw_data)
+
+  @result= json_convert_data.fetch("result").to_s
+  #converting end
+
+  erb (:result)
+end
