@@ -1,10 +1,10 @@
 <h1> Convert <%=@country1%> </h1>
 
-Go <a href="https://special-space-succotash-v6p5479qjpg4cpqg5-3000.app.github.dev/"> back</a>.
+Go <a href="/"> back</a>.
 
   <ul>
     <% @country_codes.each do |display| %>
-        <li><a href="<%=@country1%>/<%=display%>"> Convert 1 <%=@country1%> to <%= display %>...</li> 
+        <li><a href="/<%=@country1%>/<%=display%>"> Convert 1 <%=@country1%> to <%= display %>...</li> 
     <% end %>
 
   </ul>
