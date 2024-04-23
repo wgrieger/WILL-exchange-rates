@@ -2,8 +2,11 @@ require "sinatra"
 require "sinatra/reloader"
 
 get("/") do
-  "
-  <h1>Welcome to your Sinatra App!</h1>
-  <p>Define some routes in app.rb</p>
-  "
+  erb (:home)
 end
+
+#get ("/:#insert here") do 
+#@currency= 
+#@output=parse.(somethingelse)
+#erb (:display_page)
+#end
