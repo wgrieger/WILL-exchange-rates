@@ -1,11 +1,7 @@
 <h1> Currency pairs</h1>
   <ul>
-    <% @all_currencies_hash.each do |display|
-        number = 0
-        
-        current    
-    %>
+    <% @country_codes.each do |display| %>
+        <li> Convert 1 <%= display %> to...</li> 
+    <% end %>
 
-      <li> <%= display%> </li>
-      <% end %>
   </ul>

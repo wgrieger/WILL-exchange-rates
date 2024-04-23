@@ -1,3 +1,1 @@
-require "http"
-require "json"
 

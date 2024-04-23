@@ -21,8 +21,8 @@ json_list_data=JSON.parse(list_data_raw)
 
 
 @all_currencies_hash= json_list_data.fetch("currencies")
-@all_currencies_array= Array.new
-@all_currencies_array.push(@all_currencies_hash)
+@country_codes=(@all_currencies_hash.keys)
+
 
 #list end
 
@@ -44,6 +44,17 @@ json_convert_data=JSON.parse(raw_data)
 
 #beggining of trees
 get("/") do
+  exchange_key= ENV["EXCHANGE"]
+base= "https://api.exchangerate.host/"
+list_resource= "list"
+key= "?access_key=" + exchange_key.to_s
+@list_url= base + list_resource + key
+list_data_raw= HTTP.get(@list_url)
+json_list_data=JSON.parse(list_data_raw)
+
+@all_currencies_hash= json_list_data.fetch("currencies")
+@country_codes=(@all_currencies_hash.keys)
+
   erb (:home)
   #link that parses _ _ _ to _ _ _
 end
