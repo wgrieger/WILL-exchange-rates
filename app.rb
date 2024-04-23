@@ -10,61 +10,53 @@ require "json"
 @currency2="GBP"
 
 #listing
-exchange_key= ENV["EXCHANGE"]
-base= "https://api.exchangerate.host/"
-list_resource= "list"
-key= "?access_key=" + exchange_key.to_s
-@list_url= base + list_resource + key
-list_data_raw= HTTP.get(@list_url)
-json_list_data=JSON.parse(list_data_raw)
-
-
-
-@all_currencies_hash= json_list_data.fetch("currencies")
-@country_codes=(@all_currencies_hash.keys)
-
-
-#list end
+  exchange_key= ENV["EXCHANGE"]
+  base= "https://api.exchangerate.host/"
+  list_resource= "list"
+  key= "?access_key=" + exchange_key.to_s
+  @list_url= base + list_resource + key
+  list_data_raw= HTTP.get(@list_url)
+  json_list_data=JSON.parse(list_data_raw)
+  @all_currencies_hash= json_list_data.fetch("currencies")
+  @country_codes=(@all_currencies_hash.keys)
+  #list end
 
 #converting
-exchange_key= ENV["EXCHANGE"]
-base= "https://api.exchangerate.host/"
-convert_resource= "convert"
-key= "?access_key=" + exchange_key.to_s
-exchange_ticks= "&from=" + @currency1 + "&to="+ @currency2 + "&amount=1"
-@data_url= base + convert_resource + key + exchange_ticks
+  exchange_key= ENV["EXCHANGE"]
+  base= "https://api.exchangerate.host/"
+  convert_resource= "convert"
+  key= "?access_key=" + exchange_key.to_s
+  exchange_ticks= "&from=" + @currency1 + "&to="+ @currency2 + "&amount=1"
+  @data_url= base + convert_resource + key + exchange_ticks
 
-raw_data= HTTP.get(@data_url)
-json_convert_data=JSON.parse(raw_data)
+  raw_data= HTTP.get(@data_url)
+  json_convert_data=JSON.parse(raw_data)
 
-@result= json_convert_data.fetch("result").to_s
-#converting end
+  @result= json_convert_data.fetch("result").to_s
+  #converting end
 
         #end of data grabbing code
 
 #beggining of trees
-get("/") do
-  exchange_key= ENV["EXCHANGE"]
-base= "https://api.exchangerate.host/"
-list_resource= "list"
-key= "?access_key=" + exchange_key.to_s
-@list_url= base + list_resource + key
-list_data_raw= HTTP.get(@list_url)
-json_list_data=JSON.parse(list_data_raw)
 
-@all_currencies_hash= json_list_data.fetch("currencies")
-@country_codes=(@all_currencies_hash.keys)
+  get("/") do
+    exchange_key= ENV["EXCHANGE"]
+    base= "https://api.exchangerate.host/"
+    list_resource= "list"
+    key= "?access_key=" + exchange_key.to_s
+    @list_url= base + list_resource + key
+    list_data_raw= HTTP.get(@list_url)
+    json_list_data=JSON.parse(list_data_raw)
 
-  erb (:home)
-  #link that parses _ _ _ to _ _ _
-end
+    @all_currencies_hash= json_list_data.fetch("currencies")
+    @country_codes=(@all_currencies_hash.keys)
 
-get ("/test") do
-erb(:test)
-end 
+    erb (:home)
+  end
 
-#get ("/:#insert here") do 
-#@currency= :insert here
-#@output=parse.(somethingelse)
-#erb (:display_page)
-#end
+
+  get ("/:countrycode") do 
+  @country1=params.fetch("countrycode").to_s
+
+  erb (:display)
+  end
